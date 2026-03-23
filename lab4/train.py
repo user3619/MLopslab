@@ -45,6 +45,20 @@ def train_model():
         mlflow.log_metric("mae", mae)
         mlflow.log_metric("r2", r2)
         mlflow.sklearn.log_model(model, "diamonds_model")
+        
+        # Сохраняем модель
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            artifact_path="diamonds_model"
+        )
+        
+        # Получаем URI модели
+        run_id = mlflow.active_run().info.run_id
+        model_uri = f"runs:/{run_id}/diamonds_model"
+        
+        # Сохраняем URI в файл
+        with open('model_uri.txt', 'w') as f:
+            f.write(model_uri)
 
  
     model_path = 'models/diamonds_model.pkl'
