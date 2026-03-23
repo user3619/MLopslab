@@ -49,9 +49,7 @@ def train_model():
  
     model_path = 'models/diamonds_model.pkl'
 
-
-    with open('lab4/best_model.txt', 'w') as f:
-        f.write(model_path)
+    print(model_path)
 
     return model
 
