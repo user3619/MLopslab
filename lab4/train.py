@@ -46,7 +46,13 @@ def train_model():
         mlflow.log_metric("r2", r2)
         mlflow.sklearn.log_model(model, "diamonds_model")
 
-    
+ 
+    model_path = 'models/diamonds_model.pkl'
+
+
+    with open(model_path, 'w') as f:
+        f.write(model_path)
+
     return model
 
 if __name__ == "__main__":
