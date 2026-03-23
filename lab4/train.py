@@ -53,6 +53,9 @@ def train_model():
         mlflow.sklearn.log_model(model, "diamonds_model")
     
     print("Модель сохранена!")
+
+    with open('model_path.txt', 'w') as f:
+        f.write('models/diamonds_model.pkl')
     
     return model
 
