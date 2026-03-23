@@ -33,12 +33,6 @@ def train_model():
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     
-    print(f"Метрики:")
-    print(f"RMSE: {rmse:.2f}")
-    print(f"MAE: {mae:.2f}")
-    print(f"R²: {r2:.4f}")
-    
-
     os.makedirs('models', exist_ok=True)
     joblib.dump(model, 'models/diamonds_model.pkl')
     
@@ -51,8 +45,7 @@ def train_model():
         mlflow.log_metric("mae", mae)
         mlflow.log_metric("r2", r2)
         mlflow.sklearn.log_model(model, "diamonds_model")
-    
-    print("Модель сохранена!")
+
     
     return model
 
