@@ -1,0 +1,40 @@
+stages:
+  clean:
+    cmd: python src/clean.py data/raw/diamonds.csv data/processed/cleaned.csv
+    deps:
+      - src/clean.py
+      - data/raw/diamonds.csv
+    outs:
+      - data/processed/cleaned.csv
+  
+  feature_engineering:
+    cmd: python src/feature_engineering.py data/processed/cleaned.csv data/processed/features.csv models/preprocessor.pkl
+    deps:
+      - src/feature_engineering.py
+      - data/processed/cleaned.csv
+    outs:
+      - data/processed/features.csv
+      - models/preprocessor.pkl
+  
+  train:
+    cmd: python src/train.py data/processed/features.csv models/model.pkl metrics/metrics.json
+    deps:
+      - src/train.py
+      - data/processed/features.csv
+    outs:
+      - models/model.pkl
+    metrics:
+      - metrics/metrics.json:
+          cache: false
+  
+  evaluate:
+    cmd: python src/evaluate.py models/model.pkl data/processed/features.csv metrics/evaluation.json
+    deps:
+      - src/evaluate.py
+      - models/model.pkl
+      - data/processed/features.csv
+    outs:
+      - metrics/evaluation.json
+    metrics:
+      - metrics/evaluation.json:
+          cache: false
