@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  clean:
+    cmd: python src/clean.py data/raw/diamonds.csv data/processed/cleaned.csv
+    deps:
+    - path: data/raw/diamonds.csv
+      hash: md5
+      md5: d25dba43d0c7286e246a5e05e8e13605
+      size: 2571905
+    - path: src/clean.py
+      hash: md5
+      md5: fe40d465dca19f7f87be248cc630ea7b
+      size: 1451
+    outs:
+    - path: data/processed/cleaned.csv
+      hash: md5
+      md5: c421d02d53b85c285ca4cec9cc8d2c2f
+      size: 2565061
+  feature_engineering:
+    cmd: python src/feature_engineering.py data/processed/cleaned.csv 
+      data/processed/features.csv models/preprocessor.pkl
+    deps:
+    - path: data/processed/cleaned.csv
+      hash: md5
+      md5: c421d02d53b85c285ca4cec9cc8d2c2f
+      size: 2565061
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: 0a31599f4a5cc70c4310fc0d38572b44
+      size: 6333
+    outs:
+    - path: data/processed/features.csv
+      hash: md5
+      md5: d19c8fa4e712d7d9319ecc2b578152d0
+      size: 14605717
+    - path: models/preprocessor.pkl
+      hash: md5
+      md5: b9b0c73bd5129a29ba497496f9258563
+      size: 3825
+  train:
+    cmd: python src/train.py data/processed/features.csv models/model.pkl 
+      metrics/metrics.json
+    deps:
+    - path: data/processed/features.csv
+      hash: md5
+      md5: d19c8fa4e712d7d9319ecc2b578152d0
+      size: 14605717
+    - path: src/train.py
+      hash: md5
+      md5: 6427f0e02fe5d2d1144cb204679bf24d
+      size: 2224
+    outs:
+    - path: metrics/metrics.json
+      hash: md5
+      md5: ae4f6740a534c4422dad53aed4488e85
+      size: 206
+    - path: models/model.pkl
+      hash: md5
+      md5: 21985c417a63d8f5f97fe2275368517d
+      size: 22881985

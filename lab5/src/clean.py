@@ -5,6 +5,13 @@ def clean_data(input_path, output_path):
     df = pd.read_csv(input_path)
     print(f"Исходный размер: {df.shape}")
     
+
+    for col in ['y', 'z']:
+        zeros = (df[col] == 0).sum()
+        if zeros > 0:
+            print(f"   Заменяем {zeros} нулевых значений в {col} на 0.001")
+            df[col] = df[col].replace(0, 0.001)
+
     # Удаление дубликатов
     initial_count = len(df)
     df = df.drop_duplicates()
